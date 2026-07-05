@@ -1,0 +1,194 @@
+/* ================= GLOBAL ================= */
+body {
+    background: linear-gradient(180deg, #FFF8F0 0%, #FDF3E7 50%, #FFF8F0 100%);
+    min-height: 100vh;
+    scroll-behavior: smooth;
+}
+
+/* ================= PET TEXT EFFECTS ================= */
+.pet-text-coral {
+    color: #E8856C;
+    text-shadow: 0 2px 8px rgba(232, 133, 108, 0.25);
+}
+
+.pet-text-sage {
+    color: #8BAE8B;
+    text-shadow: 0 2px 8px rgba(139, 174, 139, 0.25);
+}
+
+.pet-text-brown {
+    color: #5C4033;
+}
+
+/* ================= PAW PRINT DECORATIONS ================= */
+.paw-bg {
+    position: relative;
+}
+
+.paw-bg::before {
+    content: '🐾';
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.08;
+    top: 20px;
+    left: 30px;
+    transform: rotate(-20deg);
+    pointer-events: none;
+}
+
+.paw-bg::after {
+    content: '🐾';
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0.06;
+    bottom: 25px;
+    right: 40px;
+    transform: rotate(15deg);
+    pointer-events: none;
+}
+
+/* ================= PET CARD ================= */
+.pet-card {
+    background: rgba(255, 255, 255, 0.85);
+    border: 2px solid #FDDCC7;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(92, 64, 51, 0.08);
+}
+
+.pet-card:hover {
+    transform: translateY(-6px);
+    border-color: #E8856C;
+    box-shadow: 0 8px 30px rgba(232, 133, 108, 0.2);
+}
+
+.pet-card-sage:hover {
+    border-color: #8BAE8B;
+    box-shadow: 0 8px 30px rgba(139, 174, 139, 0.2);
+}
+
+/* ================= PAW BRACKETS ================= */
+.paw-bracket-tr {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 40px;
+    height: 40px;
+    border-top: 3px solid #E8856C;
+    border-right: 3px solid #E8856C;
+    border-top-right-radius: 16px;
+    z-index: 10;
+}
+
+.paw-bracket-bl {
+    position: absolute;
+    bottom: -10px;
+    left: -10px;
+    width: 40px;
+    height: 40px;
+    border-bottom: 3px solid #8BAE8B;
+    border-left: 3px solid #8BAE8B;
+    border-bottom-left-radius: 16px;
+    z-index: 10;
+}
+
+.hero-paw-bracket-tr {
+    top: -15px;
+    right: -15px;
+    width: 60px;
+    height: 60px;
+    border-width: 4px;
+    z-index: 10;
+}
+
+.hero-paw-bracket-bl {
+    bottom: -15px;
+    left: -15px;
+    width: 60px;
+    height: 60px;
+    border-width: 4px;
+    z-index: 10;
+}
+
+/* ================= IMAGE WRAPPER ================= */
+.image-wrapper {
+    position: relative;
+    z-index: 20;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.float-anim {
+    animation: float 5s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-3deg); }
+    75% { transform: rotate(3deg); }
+}
+
+.wiggle-hover:hover {
+    animation: wiggle 0.4s ease-in-out;
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+}
+
+.pulse-ring {
+    animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+/* ================= CART ================= */
+#cartSidebar {
+    transition: transform 0.3s ease-in-out;
+}
+
+.hidden-cart {
+    transform: translateX(100%);
+}
+
+.visible-cart {
+    transform: translateX(0);
+}
+
+/* ================= SCROLLBAR ================= */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #FDF3E7;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #E8856C;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #d67358;
+}

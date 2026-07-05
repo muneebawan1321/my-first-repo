@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paws & Polish | Luxury Pet Grooming & Care</title>
+    <meta name="description" content="Paws & Polish - Premium pet grooming, spa services, and boutique supplies. Treat your furry friends like royalty with our expert care.">
+    <meta name="keywords" content="pet grooming, dog grooming, cat grooming, pet spa, pet supplies, pet care">
+    <meta property="og:title" content="Paws & Polish | Luxury Pet Care">
+    <meta property="og:description" content="Premium pet grooming, spa services, and boutique supplies.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-coral': '#E8856C',
+                        'brand-coral-light': '#F2A996',
+                        'brand-sage': '#8BAE8B',
+                        'brand-sage-light': '#B5D4B5',
+                        'brand-honey': '#E4A853',
+                        'brand-cream': '#FFF8F0',
+                        'brand-warm': '#FDF3E7',
+                        'brand-peach': '#FDDCC7',
+                        'brand-brown': '#5C4033',
+                        'brand-brown-light': '#8B6F5E',
+                    },
+                    fontFamily: {
+                        sans: ['Nunito', 'sans-serif'],
+                        display: ['Quicksand', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(180deg, #FFF8F0 0%, #FDF3E7 50%, #FFF8F0 100%);
+            min-height: 100vh;
+            scroll-behavior: smooth;
+        }
+
+        /* --- PET TEXT EFFECTS --- */
+        .pet-text-coral { color: #E8856C; }
+        .pet-text-sage { color: #8BAE8B; }
+        .pet-text-brown { color: #5C4033; }
+
+        /* --- PAW PRINT DECORATIONS --- */
+        .paw-bg {
+            position: relative;
+        }
+        .paw-bg::before {
+            content: '🐾';
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.08;
+            top: 20px;
+            left: 30px;
+            transform: rotate(-20deg);
+            pointer-events: none;
+        }
+        .paw-bg::after {
+            content: '🐾';
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.06;
+            bottom: 25px;
+            right: 40px;
+            transform: rotate(15deg);
+            pointer-events: none;
+        }
+
+        /* --- CARD STYLES --- */
+        .pet-card {
+            background: rgba(255, 255, 255, 0.85);
+            border: 2px solid #FDDCC7;
+            transition: all 0.3s ease;
+        }
+        .pet-card:hover {
+            transform: translateY(-6px);
+            border-color: #E8856C;
+        }
+        .pet-card-sage:hover {
+            border-color: #8BAE8B;
+        }
+
+        /* --- IMAGE CONTAINER --- */
+        .image-wrapper {
+            position: relative;
+            z-index: 20;
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        /* --- CART & MODAL TRANSITIONS --- */
+        #cartSidebar { transition: transform 0.3s ease-in-out; }
+        .hidden-cart { transform: translateX(100%); }
+        .visible-cart { transform: translateX(0); }
+
+        /* --- SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #FDF3E7; }
+        ::-webkit-scrollbar-thumb { background: #E8856C; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d67358; }
+
+        /* --- FAQ --- */
+        .faq-icon { display: inline-block; transition: transform 0.3s ease; }
+        .faq-item button { transition: background 0.2s ease; }
+        .faq-item button:hover { background: rgba(253, 220, 199, 0.5); }
+
+        /* --- PROMO BANNER --- */
+        #promoBanner { transition: transform 0.4s ease, opacity 0.4s ease; }
+        #promoBanner.hidden-banner { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+
+        /* --- BACK TO TOP --- */
+        #backToTop { transition: opacity 0.3s, transform 0.3s; }
+        #backToTop.hidden-btn { opacity: 0; transform: translateY(20px); pointer-events: none; }
+
+        /* --- MOBILE STICKY CTA --- */
+        @media (min-width: 768px) { #mobileCta { display: none !important; } }
+
+        /* --- WHATSAPP --- */
+
+        /* --- COUNTER --- */
+        .counter-section { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+        .counter-section.visible { opacity: 1; transform: translateY(0); }
+
+        /* --- IMAGE LAZY LOAD --- */
+        img.lazy { opacity: 0; transition: opacity 0.5s ease; }
+        img.lazy.loaded { opacity: 1; }
+
+        /* --- FLOATING PET BACKGROUND --- */
+        #petBg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .pet-float { position: absolute; opacity: 0.25; }
+        @keyframes petFloat {
+            0% { transform: translateY(110vh) rotate(0deg); }
+            100% { transform: translateY(-10vh) rotate(360deg); }
+        }
+        @keyframes petDrift {
+            0% { transform: translateX(-10vw) translateY(0) rotate(0deg); }
+            25% { transform: translateX(25vw) translateY(-30vh) rotate(90deg); }
+            50% { transform: translateX(50vw) translateY(15vh) rotate(180deg); }
+            75% { transform: translateX(75vw) translateY(-20vh) rotate(270deg); }
+            100% { transform: translateX(110vw) translateY(0) rotate(360deg); }
+        }
+        @keyframes petBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-40px) scale(1.15); }
+        }
+        @keyframes petSpin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.3); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        @keyframes petSway {
+            0%, 100% { transform: translateX(0) rotate(-10deg); }
+            50% { transform: translateX(30px) rotate(10deg); }
+        }
+        @keyframes petPulse {
+            0%, 100% { transform: scale(1); opacity: 0.25; }
+            50% { transform: scale(1.4); opacity: 0.4; }
+        }
+    </style>
+</head>
+<body class="text-brand-brown overflow-x-hidden">
+
+    <div id="petBg"></div>
+
+    <div id="promoBanner" class="bg-brand-coral text-white text-center py-2 px-4 text-sm font-bold fixed top-0 left-0 right-0 z-[60] flex items-center justify-center gap-4">
+        <span>🐾 First visit? Get <span class="underline">20% OFF</span> any grooming service! Use code: <span class="bg-white/20 px-2 py-0.5 rounded">PAWS20</span></span>
+        <button onclick="closePromo()" class="text-white/80 hover:text-white text-lg leading-none ml-2">&times;</button>
+    </div>
+
+    <header class="bg-white/90 w-full py-3 px-6 fixed top-0 z-50 border-b-2 border-brand-peach">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="#home" class="logo-container bg-brand-cream border-2 border-brand-coral-light rounded-full px-5 py-2 flex items-center">
+                <span class="text-xl mr-2">🐾</span>
+                <span class="text-brand-brown font-bold tracking-wide text-sm md:text-base">Paws & Polish</span>
+            </a>
+
+            <nav class="hidden md:flex space-x-8">
+                <a href="#home" class="text-brand-brown-light hover:text-brand-coral font-bold text-sm tracking-wide transition">HOME</a>
+                <a href="#about" class="text-brand-brown-light hover:text-brand-coral font-bold text-sm tracking-wide transition">ABOUT</a>
+                <a href="#categories" class="text-brand-brown-light hover:text-brand-coral font-bold text-sm tracking-wide transition">SHOP BY PET</a>
+                <a href="#products" class="text-brand-brown-light hover:text-brand-coral font-bold text-sm tracking-wide transition">PET SHOP</a>
+                <a href="#services" class="text-brand-brown-light hover:text-brand-coral font-bold text-sm tracking-wide transition">SERVICES</a>
+                <a href="#testimonials" class="text-brand-brown-light hover:text-brand-coral font-bold text-sm tracking-wide transition">REVIEWS</a>
+                <a href="#contact-form" class="text-brand-brown-light hover:text-brand-coral font-bold text-sm tracking-wide transition">CONTACT</a>
+            </nav>
+
+            <div class="flex items-center space-x-4">
+                <button onclick="toggleCart()" class="relative text-brand-brown-light hover:text-brand-coral transition">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                    <span id="cartCount" class="absolute -top-2 -right-2 bg-brand-coral text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                </button>
+                
+                <button onclick="openCallModal()" class="hidden sm:flex bg-brand-coral hover:bg-brand-coral-light text-white px-5 py-2 rounded-full font-bold text-sm items-center transition">
+                    📞 Call Now
+                </button>
+
+                <button onclick="toggleMobileMenu()" class="md:hidden text-brand-brown-light hover:text-brand-coral transition">
+                    <svg id="hamburgerIcon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    <svg id="closeIcon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-brand-peach pt-4">
+            <nav class="flex flex-col space-y-3">
+                <a href="#home" onclick="toggleMobileMenu()" class="text-brand-brown-light hover:text-brand-coral font-bold text-sm tracking-wide transition py-2">HOME</a>
+                <a href="#about" onclick="toggleMobileMenu()" class="text-brand-brown-light hover:text-brand-coral font-bold text-sm tracking-wide transition py-2">ABOUT</a>
+                <a href="#categories" onclick="toggleMobileMenu()" class="text-brand-brown-light hover:text-brand-coral font-bold text-sm tracking-wide transition py-2">SHOP BY PET</a>
+                <a href="#products" onclick="toggleMobileMenu()" class="text-brand-brown-light hover:text-brand-coral font-bold text-sm tracking-wide transition py-2">PET SHOP</a>
+                <a href="#services" onclick="toggleMobileMenu()" class="text-brand-brown-light hover:text-brand-coral font-bold text-sm tracking-wide transition py-2">SERVICES</a>
+                <a href="#testimonials" onclick="toggleMobileMenu()" class="text-brand-brown-light hover:text-brand-coral font-bold text-sm tracking-wide transition py-2">REVIEWS</a>
+                <a href="#gallery" onclick="toggleMobileMenu()" class="text-brand-brown-light hover:text-brand-coral font-bold text-sm tracking-wide transition py-2">GALLERY</a>
+                <a href="#faq" onclick="toggleMobileMenu()" class="text-brand-brown-light hover:text-brand-coral font-bold text-sm tracking-wide transition py-2">FAQ</a>
+                <a href="#contact-form" onclick="toggleMobileMenu()" class="text-brand-brown-light hover:text-brand-coral font-bold text-sm tracking-wide transition py-2">CONTACT</a>
+                <a href="tel:+18005551234" class="sm:hidden bg-brand-coral text-white px-5 py-2 rounded-full font-bold text-sm text-center  mt-2">📞 Call Now</a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="relative w-full min-h-screen flex items-center justify-center px-6 pt-24 pb-12 paw-bg">
+        <div class="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="z-10">
+                <h2 class="text-brand-brown font-display font-bold text-5xl md:text-6xl mb-2">Welcome to</h2>
+                <h1 class="font-display font-bold text-6xl md:text-7xl mb-8 pet-text-coral">Paws & Polish!</h1>
+                <div class="flex border-l-4 border-brand-sage pl-6 mb-10">
+                    <p class="text-brand-brown-light text-lg leading-relaxed max-w-lg">
+                        Experience the ultimate luxury pet care. From premium grooming to high-end supplies, we treat your furry friends like royalty.
+                    </p>
+                </div>
+                <a href="#services" class="inline-block bg-brand-coral text-white hover:bg-brand-coral-light font-bold py-3 px-8 rounded-full tracking-wider transition-all duration-300">
+                    BOOK APPOINTMENT 🐾
+                </a>
+                <div class="flex flex-wrap gap-6 mt-8" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center gap-2 text-brand-brown-light text-sm">
+                        <span class="text-brand-coral text-lg">✓</span>
+                        <span>Certified Groomers</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-brand-brown-light text-sm">
+                        <span class="text-brand-sage text-lg">✓</span>
+                        <span>Insured & Bonded</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-brand-brown-light text-sm">
+                        <span class="text-brand-honey text-lg">✓</span>
+                        <span>1,200+ Happy Pets</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-brand-brown-light text-sm">
+                        <span class="text-brand-coral text-lg">★</span>
+                        <span>5-Star Rated</span>
+                    </div>
+                </div>
+            </div>
+            <div class="relative flex justify-center md:justify-end">
+                <div class="relative w-[300px] h-[436px] md:w-[350px] md:h-[509px] bg-white rounded-3xl p-2  border-4 border-brand-peach">
+                    
+                    <div class="image-wrapper rounded-2xl">
+                        <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?q=80&w=662&auto=format&fit=crop" 
+                            alt="Happy golden retriever" class="w-full h-full object-cover rounded-2xl">
+                    </div>
+                </div>
+            </div>
+            </div>
+        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-center cursor-pointer">
+            <a href="#categories" class="text-brand-coral text-xs font-bold tracking-[0.2em] uppercase block mb-2">Scroll Down</a>
+            <svg class="w-6 h-6 text-brand-coral mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+    </section>
+
+    <div class="h-px w-2/3 mx-auto bg-brand-peach mb-20"></div>
+
+    <section id="about" class="max-w-7xl mx-auto px-6 mb-24 scroll-mt-20">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <h2 class="text-4xl font-display font-bold mb-4 pet-text-coral">About Us 🐾</h2>
+                <p class="text-brand-brown-light text-lg leading-relaxed mb-6">
+                    Founded in 2020, Paws & Polish was born from a simple belief: every pet deserves to be treated like family. What started as a small grooming studio has grown into a full-service pet care destination.
+                </p>
+                <p class="text-brand-brown-light leading-relaxed mb-6">
+                    Our team of certified groomers and animal lovers bring over 15 years of combined experience. We use only premium, pet-safe products and tailor every session to your furry friend's unique needs.
+                </p>
+                <div class="counter-section flex gap-8">
+                    <div class="text-center">
+                        <span class="block text-3xl font-bold text-brand-coral" data-target="15" data-suffix="+">0</span>
+                        <span class="text-brand-brown-light text-sm">Years Experience</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-3xl font-bold text-brand-sage" data-target="1200" data-suffix="+">0</span>
+                        <span class="text-brand-brown-light text-sm">Happy Pets</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-3xl font-bold text-brand-honey" data-target="5" data-suffix="★">0</span>
+                        <span class="text-brand-brown-light text-sm">Google Rating</span>
+                    </div>
+                </div>
+            </div>
+            <div class="relative" data-aos="fade-left">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-4">
+                        <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?q=80&w=400&auto=format&fit=crop" alt="Happy golden retriever" class="rounded-2xl w-full h-48 object-cover ">
+                        <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?q=80&w=400&auto=format&fit=crop" alt="Cute ginger cat" class="rounded-2xl w-full h-36 object-cover ">
+                    </div>
+                    <div class="space-y-4 mt-8">
+                        <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=400&auto=format&fit=crop" alt="Dogs playing together" class="rounded-2xl w-full h-36 object-cover ">
+                        <div class="bg-brand-cream rounded-2xl p-6  flex flex-col items-center justify-center h-48 border-2 border-brand-peach">
+                            <span class="text-4xl mb-2">🐕 🐈 🐩</span>
+                            <span class="text-brand-brown font-bold text-center text-sm">Where every pet is family</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="categories" class="max-w-7xl mx-auto px-6 mb-24 scroll-mt-20">
+        <h2 class="text-center text-4xl font-display font-bold mb-4 pet-text-coral">Shop By Pet 🐾</h2>
+        <p class="text-center text-brand-brown-light mb-12 max-w-2xl mx-auto">Select your furry friend's category to see our exclusive collection.</p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <a href="#products-dog" class="pet-card relative rounded-2xl p-4 group cursor-pointer">
+                <div class="h-48 overflow-hidden rounded-xl mb-4">
+                        <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=600&auto=format&fit=crop" alt="Two happy dogs running together" class="w-full h-full object-cover transition duration-500">
+                </div>
+                <h3 class="text-xl font-bold text-center text-brand-brown group-hover:text-brand-coral transition">🐕 Dogs</h3>
+            </a>
+            <a href="#products-cat" class="pet-card relative rounded-2xl p-4 group cursor-pointer">
+                <div class="h-48 overflow-hidden rounded-xl mb-4">
+                    <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?q=80&w=600&auto=format&fit=crop" alt="Cute ginger cat" class="w-full h-48 object-cover transition duration-500">
+                </div>
+                <h3 class="text-xl font-bold text-center text-brand-brown group-hover:text-brand-coral transition">🐱 Cats</h3>
+            </a>
+            <a href="#services" class="pet-card relative rounded-2xl p-4 group cursor-pointer">
+                <div class="h-48 overflow-hidden rounded-xl mb-4">
+                    <img src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?q=80&w=600&auto=format&fit=crop&sat=-50&bri=10" alt="Professional pet grooming" class="w-full h-full object-cover transition duration-500">
+                </div>
+                <h3 class="text-xl font-bold text-center text-brand-brown group-hover:text-brand-sage transition">✂️ Grooming</h3>
+            </a>
+           <a href="#products" class="pet-card relative rounded-2xl p-4 group cursor-pointer">
+                <div class="h-48 overflow-hidden rounded-xl mb-4">
+                    <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?q=80&w=600&auto=format&fit=crop" alt="Dog with bandana" class="w-full h-full object-cover transition duration-500">
+                </div>
+                <h3 class="text-xl font-bold text-center text-brand-brown group-hover:text-brand-honey transition">🦴 Supplies</h3>
+            </a>
+        </div>
+    </section>
+
+    <section id="products" class="bg-white/60 py-20 border-y border-brand-peach scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <div id="products-dog" class="mb-16 scroll-mt-28">
+                <div class="flex justify-between items-end mb-8">
+                    <h2 class="text-3xl font-bold text-brand-brown pet-text-sage">🐕 Pawsome Dog Gear</h2>
+                    <a href="#" class="text-brand-coral hover:text-brand-brown text-sm font-bold">VIEW ALL &rarr;</a>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                    <div class="pet-card rounded-2xl p-4">
+                        <img src="https://images.unsplash.com/photo-1589924691995-400dc9ecc119?q=80&w=600&auto=format&fit=crop" alt="Premium dog food" class="rounded-xl mb-4 w-full h-48 object-cover">
+                        <h4 class="text-lg font-bold text-brand-brown">Premium Kibble</h4>
+                        <p class="text-brand-brown-light text-sm mb-3">Organic & Grain Free</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-brand-coral font-bold">$45.00</span>
+                            <button onclick="addToCart('Premium Kibble', 45)" class="bg-brand-sage text-white px-4 py-1 rounded-full text-xs font-bold hover:bg-brand-sage-light transition">ADD 🦴</button>
+                        </div>
+                    </div>
+                    <div class="pet-card rounded-2xl p-4">
+                        <img src="https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?q=80&w=600&auto=format&fit=crop" alt="Dog leash and accessories" class="rounded-xl mb-4 w-full h-48 object-cover">
+                        <h4 class="text-lg font-bold text-brand-brown">Neon Leash</h4>
+                        <p class="text-brand-brown-light text-sm mb-3">Glow in the dark</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-brand-coral font-bold">$22.00</span>
+                            <button onclick="addToCart('Neon Leash', 22)" class="bg-brand-sage text-white px-4 py-1 rounded-full text-xs font-bold hover:bg-brand-sage-light transition">ADD 🦴</button>
+                        </div>
+                    </div>
+                    <div class="pet-card rounded-2xl p-4">
+                        <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=600&auto=format&fit=crop&hue=20" alt="Dogs on comfortable bed" class="rounded-xl mb-4 w-full h-48 object-cover">
+                        <h4 class="text-lg font-bold text-brand-brown">Luxury Bed</h4>
+                        <p class="text-brand-brown-light text-sm mb-3">Memory Foam</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-brand-coral font-bold">$85.00</span>
+                            <button onclick="addToCart('Luxury Bed', 85)" class="bg-brand-sage text-white px-4 py-1 rounded-full text-xs font-bold hover:bg-brand-sage-light transition">ADD 🦴</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="products-cat" class="scroll-mt-28">
+                <div class="flex justify-between items-end mb-8">
+                    <h2 class="text-3xl font-bold text-brand-brown pet-text-coral">🐱 Purrfect Cat Picks</h2>
+                    <a href="#" class="text-brand-sage hover:text-brand-brown text-sm font-bold">VIEW ALL &rarr;</a>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                    <div class="pet-card pet-card-sage rounded-2xl p-4 border-gray-200 hover:border-brand-sage">
+                        <img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?q=80&w=600&auto=format&fit=crop" alt="Playful cat" class="rounded-xl mb-4 w-full h-48 object-cover">
+                        <h4 class="text-lg font-bold text-brand-brown">Interactive Laser</h4>
+                        <p class="text-brand-brown-light text-sm mb-3">Automatic mode</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-brand-coral font-bold">$18.00</span>
+                            <button onclick="addToCart('Interactive Laser', 18)" class="bg-brand-coral text-white px-4 py-1 rounded-full text-xs font-bold hover:bg-brand-coral-light transition">ADD 🐾</button>
+                        </div>
+                    </div>
+                    <div class="pet-card pet-card-sage rounded-2xl p-4 border-gray-200 hover:border-brand-sage">
+                        <img src="https://images.unsplash.com/photo-1495360010541-f48722b34f7d?q=80&w=600&auto=format&fit=crop" alt="Fluffy cat" class="rounded-xl mb-4 w-full h-48 object-cover">
+                        <h4 class="text-lg font-bold text-brand-brown">Cat Tree Tower</h4>
+                        <p class="text-brand-brown-light text-sm mb-3">Multi-level fun</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-brand-coral font-bold">$120.00</span>
+                            <button onclick="addToCart('Cat Tree Tower', 120)" class="bg-brand-coral text-white px-4 py-1 rounded-full text-xs font-bold hover:bg-brand-coral-light transition">ADD 🐾</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="services" class="max-w-7xl mx-auto px-6 py-24 scroll-mt-20 paw-bg">
+        <h2 class="text-center text-4xl font-display font-bold mb-4 pet-text-sage" data-aos="fade-up">✨ Our Services</h2>
+        <p class="text-center text-brand-brown-light mb-12 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">Treat your pet to a spa day. We offer everything from gentle bathing to stylish trims.</p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-2xl border-2 border-brand-peach hover:border-brand-coral transition duration-300 " data-aos="fade-up" data-aos-delay="100">
+                <div class="text-3xl mb-3">🛁</div>
+                <h3 class="text-xl font-bold text-brand-brown mb-2">The Royal Wash</h3>
+                <p class="text-brand-brown-light text-sm mb-4">Premium shampoo, blow dry, ear cleaning, and nail trim.</p>
+                <span class="text-brand-coral font-bold text-xl">$45</span>
+                <button onclick="openBooking('The Royal Wash')" class="mt-4 w-full border-2 border-brand-coral text-brand-coral hover:bg-brand-coral hover:text-white px-4 py-2 rounded-full font-bold transition text-sm">Book Now 🐾</button>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border-2 border-brand-peach hover:border-brand-sage transition duration-300 " data-aos="fade-up" data-aos-delay="200">
+                <div class="text-3xl mb-3">✂️</div>
+                <h3 class="text-xl font-bold text-brand-brown mb-2">Full Style Cut</h3>
+                <p class="text-brand-brown-light text-sm mb-4">Royal Wash plus breed-specific haircut and styling.</p>
+                <span class="text-brand-sage font-bold text-xl">$80</span>
+                <button onclick="openBooking('Full Style Cut')" class="mt-4 w-full border-2 border-brand-sage text-brand-sage hover:bg-brand-sage hover:text-white px-4 py-2 rounded-full font-bold transition text-sm">Book Now 🐾</button>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border-2 border-brand-peach hover:border-brand-honey transition duration-300 " data-aos="fade-up" data-aos-delay="300">
+                <div class="text-3xl mb-3">💅</div>
+                <h3 class="text-xl font-bold text-brand-brown mb-2">Nail Trimming</h3>
+                <p class="text-brand-brown-light text-sm mb-4">Gentle nail trimming and paw pad conditioning.</p>
+                <span class="text-brand-honey font-bold text-xl">$20</span>
+                <button onclick="openBooking('Nail Trimming')" class="mt-4 w-full border-2 border-brand-honey text-brand-honey hover:bg-brand-honey hover:text-white px-4 py-2 rounded-full font-bold transition text-sm">Book Now 🐾</button>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border-2 border-brand-peach hover:border-brand-coral transition duration-300 " data-aos="fade-up" data-aos-delay="100">
+                <div class="text-3xl mb-3">🦷</div>
+                <h3 class="text-xl font-bold text-brand-brown mb-2">Teeth Cleaning</h3>
+                <p class="text-brand-brown-light text-sm mb-4">Fresh breath dental scrub and oral health check.</p>
+                <span class="text-brand-coral font-bold text-xl">$30</span>
+                <button onclick="openBooking('Teeth Cleaning')" class="mt-4 w-full border-2 border-brand-coral text-brand-coral hover:bg-brand-coral hover:text-white px-4 py-2 rounded-full font-bold transition text-sm">Book Now 🐾</button>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border-2 border-brand-peach hover:border-brand-sage transition duration-300 " data-aos="fade-up" data-aos-delay="200">
+                <div class="text-3xl mb-3">🧴</div>
+                <h3 class="text-xl font-bold text-brand-brown mb-2">De-Shedding Treatment</h3>
+                <p class="text-brand-brown-light text-sm mb-4">Reduce loose fur with our specialized de-shedding spa.</p>
+                <span class="text-brand-sage font-bold text-xl">$55</span>
+                <button onclick="openBooking('De-Shedding Treatment')" class="mt-4 w-full border-2 border-brand-sage text-brand-sage hover:bg-brand-sage hover:text-white px-4 py-2 rounded-full font-bold transition text-sm">Book Now 🐾</button>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border-2 border-brand-peach hover:border-brand-honey transition duration-300 " data-aos="fade-up" data-aos-delay="300">
+                <div class="text-3xl mb-3">🌸</div>
+                <h3 class="text-xl font-bold text-brand-brown mb-2">Flea & Tick Treatment</h3>
+                <p class="text-brand-brown-light text-sm mb-4">Medicated bath and prevention treatment for parasites.</p>
+                <span class="text-brand-honey font-bold text-xl">$65</span>
+                <button onclick="openBooking('Flea & Tick Treatment')" class="mt-4 w-full border-2 border-brand-honey text-brand-honey hover:bg-brand-honey hover:text-white px-4 py-2 rounded-full font-bold transition text-sm">Book Now 🐾</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-white/60 py-20 border-y border-brand-peach">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-center text-4xl font-display font-bold mb-4 pet-text-coral" data-aos="fade-up">📊 Compare Our Services</h2>
+            <p class="text-center text-brand-brown-light mb-12" data-aos="fade-up" data-aos-delay="100">Find the perfect package for your furry friend.</p>
+            
+            <div class="overflow-x-auto" data-aos="fade-up" data-aos-delay="200">
+                <table class="w-full min-w-[600px]">
+                    <thead>
+                        <tr class="border-b-2 border-brand-peach">
+                            <th class="text-left py-4 px-4 text-brand-brown font-bold">Service</th>
+                            <th class="py-4 px-4 text-brand-brown font-bold text-center">Wash</th>
+                            <th class="py-4 px-4 text-brand-brown font-bold text-center">Nail Trim</th>
+                            <th class="py-4 px-4 text-brand-brown font-bold text-center">Ear Clean</th>
+                            <th class="py-4 px-4 text-brand-brown font-bold text-center">Haircut</th>
+                            <th class="py-4 px-4 text-brand-brown font-bold text-center">Teeth</th>
+                            <th class="py-4 px-4 text-brand-coral font-bold text-center">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-brand-peach/50 hover:bg-brand-cream/50 transition">
+                            <td class="py-4 px-4 font-bold text-brand-brown">🛁 Royal Wash</td>
+                            <td class="py-4 px-4 text-center text-brand-sage text-lg">✓</td>
+                            <td class="py-4 px-4 text-center text-brand-sage text-lg">✓</td>
+                            <td class="py-4 px-4 text-center text-brand-sage text-lg">✓</td>
+                            <td class="py-4 px-4 text-center text-brand-brown-light/40">—</td>
+                            <td class="py-4 px-4 text-center text-brand-brown-light/40">—</td>
+                            <td class="py-4 px-4 text-center font-bold text-brand-coral">$45</td>
+                        </tr>
+                        <tr class="border-b border-brand-peach/50 hover:bg-brand-cream/50 transition">
+                            <td class="py-4 px-4 font-bold text-brand-brown">✂️ Full Style Cut</td>
+                            <td class="py-4 px-4 text-center text-brand-sage text-lg">✓</td>
+                            <td class="py-4 px-4 text-center text-brand-sage text-lg">✓</td>
+                            <td class="py-4 px-4 text-center text-brand-sage text-lg">✓</td>
+                            <td class="py-4 px-4 text-center text-brand-sage text-lg">✓</td>
+                            <td class="py-4 px-4 text-center text-brand-brown-light/40">—</td>
+                            <td class="py-4 px-4 text-center font-bold text-brand-sage">$80</td>
+                        </tr>
+                        <tr class="border-b border-brand-peach/50 hover:bg-brand-cream/50 transition">
+                            <td class="py-4 px-4 font-bold text-brand-brown">💅 Nail Trimming</td>
+                            <td class="py-4 px-4 text-center text-brand-brown-light/40">—</td>
+                            <td class="py-4 px-4 text-center text-brand-sage text-lg">✓</td>
+                            <td class="py-4 px-4 text-center text-brand-brown-light/40">—</td>
+                            <td class="py-4 px-4 text-center text-brand-brown-light/40">—</td>
+                            <td class="py-4 px-4 text-center text-brand-brown-light/40">—</td>
+                            <td class="py-4 px-4 text-center font-bold text-brand-honey">$20</td>
+                        </tr>
+                        <tr class="border-b border-brand-peach/50 hover:bg-brand-cream/50 transition">
+                            <td class="py-4 px-4 font-bold text-brand-brown">🦷 Teeth Cleaning</td>
+                            <td class="py-4 px-4 text-center text-brand-brown-light/40">—</td>
+                            <td class="py-4 px-4 text-center text-brand-brown-light/40">—</td>
+                            <td class="py-4 px-4 text-center text-brand-brown-light/40">—</td>
+                            <td class="py-4 px-4 text-center text-brand-brown-light/40">—</td>
+                            <td class="py-4 px-4 text-center text-brand-sage text-lg">✓</td>
+                            <td class="py-4 px-4 text-center font-bold text-brand-coral">$30</td>
+                        </tr>
+                        <tr class="border-b border-brand-peach/50 hover:bg-brand-cream/50 transition">
+                            <td class="py-4 px-4 font-bold text-brand-brown">🧴 De-Shedding</td>
+                            <td class="py-4 px-4 text-center text-brand-sage text-lg">✓</td>
+                            <td class="py-4 px-4 text-center text-brand-sage text-lg">✓</td>
+                            <td class="py-4 px-4 text-center text-brand-sage text-lg">✓</td>
+                            <td class="py-4 px-4 text-center text-brand-brown-light/40">—</td>
+                            <td class="py-4 px-4 text-center text-brand-brown-light/40">—</td>
+                            <td class="py-4 px-4 text-center font-bold text-brand-sage">$55</td>
+                        </tr>
+                        <tr class="hover:bg-brand-cream/50 transition">
+                            <td class="py-4 px-4 font-bold text-brand-brown">🌸 Flea & Tick</td>
+                            <td class="py-4 px-4 text-center text-brand-sage text-lg">✓</td>
+                            <td class="py-4 px-4 text-center text-brand-sage text-lg">✓</td>
+                            <td class="py-4 px-4 text-center text-brand-sage text-lg">✓</td>
+                            <td class="py-4 px-4 text-center text-brand-brown-light/40">—</td>
+                            <td class="py-4 px-4 text-center text-brand-brown-light/40">—</td>
+                            <td class="py-4 px-4 text-center font-bold text-brand-honey">$65</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact-form" class="max-w-4xl mx-auto px-6 py-24 scroll-mt-20">
+        <h2 class="text-center text-4xl font-display font-bold mb-4 pet-text-coral">💌 Get in Touch</h2>
+        <p class="text-center text-brand-brown-light mb-12 max-w-2xl mx-auto">Have questions about our services or need support? Send us a message!</p>
+        
+        <div class="pet-card rounded-3xl p-8 md:p-12 border-brand-peach">
+            <form onsubmit="handleContactSubmit(event)" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="fullName" class="block text-brand-brown text-sm font-bold mb-2">Full Name</label>
+                        <input type="text" id="fullName" placeholder="Your Name" required
+                               class="w-full bg-brand-cream border-2 border-brand-peach rounded-xl px-4 py-3 text-brand-brown focus:outline-none focus:border-brand-coral transition">
+                    </div>
+                    <div>
+                        <label for="phone" class="block text-brand-brown text-sm font-bold mb-2">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="(123) 456-7890"
+                               class="w-full bg-brand-cream border-2 border-brand-peach rounded-xl px-4 py-3 text-brand-brown focus:outline-none focus:border-brand-coral transition">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="email" class="block text-brand-brown text-sm font-bold mb-2">Email Address</label>
+                    <input type="email" id="email" placeholder="you@example.com" required
+                           class="w-full bg-brand-cream border-2 border-brand-peach rounded-xl px-4 py-3 text-brand-brown focus:outline-none focus:border-brand-coral transition">
+                </div>
+
+                <div>
+                    <label for="subject" class="block text-brand-brown text-sm font-bold mb-2">Subject of Inquiry</label>
+                    <select id="subject" required
+                            class="w-full bg-brand-cream border-2 border-brand-peach rounded-xl px-4 py-3 text-brand-brown focus:outline-none focus:border-brand-coral transition appearance-none">
+                        <option value="" disabled selected class="text-brand-brown-light">Select a Subject</option>
+                        <option value="grooming" class="text-brand-brown">Grooming Services</option>
+                        <option value="product" class="text-brand-brown">Product Inquiry</option>
+                        <option value="booking" class="text-brand-brown">Existing Booking</option>
+                        <option value="other" class="text-brand-brown">Other</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <span class="block text-brand-brown text-sm font-bold mb-3">Preferred Contact Method:</span>
+                    <div class="flex flex-wrap gap-6">
+                        <label class="flex items-center text-brand-brown cursor-pointer">
+                            <input type="radio" name="contactMethod" value="email" required class="form-radio h-4 w-4 text-brand-coral bg-brand-cream border-brand-peach focus:ring-brand-coral">
+                            <span class="ml-2">Email</span>
+                        </label>
+                        <label class="flex items-center text-brand-brown cursor-pointer">
+                            <input type="radio" name="contactMethod" value="phone" class="form-radio h-4 w-4 text-brand-coral bg-brand-cream border-brand-peach focus:ring-brand-coral">
+                            <span class="ml-2">Phone</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="block text-brand-brown text-sm font-bold mb-3">Service Interest (Optional):</span>
+                    <div class="flex flex-wrap gap-6">
+                        <label class="flex items-center text-brand-brown cursor-pointer">
+                            <input type="checkbox" name="interest" value="dog" class="form-checkbox h-4 w-4 text-brand-sage bg-brand-cream border-brand-peach rounded focus:ring-brand-sage">
+                            <span class="ml-2">🐕 Dog Services</span>
+                        </label>
+                        <label class="flex items-center text-brand-brown cursor-pointer">
+                            <input type="checkbox" name="interest" value="cat" class="form-checkbox h-4 w-4 text-brand-sage bg-brand-cream border-brand-peach rounded focus:ring-brand-sage">
+                            <span class="ml-2">🐱 Cat Products</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="message" class="block text-brand-brown text-sm font-bold mb-2">Your Message</label>
+                    <textarea id="message" rows="4" placeholder="How can we help you and your furry friend?" required
+                              class="w-full bg-brand-cream border-2 border-brand-peach rounded-xl px-4 py-3 text-brand-brown focus:outline-none focus:border-brand-coral transition"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-brand-coral text-white font-bold py-3 rounded-full hover:bg-brand-coral-light transition mt-6">
+                    SEND MESSAGE 🐾
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <section id="testimonials" class="bg-white/60 py-24 border-y border-brand-peach scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-center text-4xl font-display font-bold mb-4 pet-text-coral" data-aos="fade-up">💬 What Pet Parents Say</h2>
+            <p class="text-center text-brand-brown-light mb-12 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">Don't just take our word for it — hear from our happy clients!</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-brand-cream p-6 rounded-2xl border-2 border-brand-peach" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center gap-1 text-brand-honey mb-3">★★★★★</div>
+                    <p class="text-brand-brown mb-4 leading-relaxed">"My golden retriever Max has never looked so good! The team at Paws & Polish treated him like royalty. He came home smelling amazing and so happy."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-coral rounded-full flex items-center justify-center text-white font-bold">S</div>
+                        <div>
+                            <span class="text-brand-brown font-bold text-sm block">Sarah M.</span>
+                            <span class="text-brand-brown-light text-xs">Max's mom 🐕</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-brand-cream p-6 rounded-2xl border-2 border-brand-peach" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center gap-1 text-brand-honey mb-3">★★★★★</div>
+                    <p class="text-brand-brown mb-4 leading-relaxed">"I was nervous about leaving my anxiety-prone cat, but they were so patient and gentle. Luna came home relaxed and purring. Will definitely be back!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-sage rounded-full flex items-center justify-center text-white font-bold">J</div>
+                        <div>
+                            <span class="text-brand-brown font-bold text-sm block">James K.</span>
+                            <span class="text-brand-brown-light text-xs">Luna's dad 🐈</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-brand-cream p-6 rounded-2xl border-2 border-brand-peach" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center gap-1 text-brand-honey mb-3">★★★★★</div>
+                    <p class="text-brand-brown mb-4 leading-relaxed">"Best grooming salon in town! I've tried 5 different places and nothing compares. The attention to detail and the love they show the animals is unmatched."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-honey rounded-full flex items-center justify-center text-white font-bold">M</div>
+                        <div>
+                            <span class="text-brand-brown font-bold text-sm block">Michelle R.</span>
+                            <span class="text-brand-brown-light text-xs">Coco & Buddy's mom 🐩🐕</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="max-w-7xl mx-auto px-6 py-24 scroll-mt-20">
+        <h2 class="text-center text-4xl font-display font-bold mb-4 pet-text-sage" data-aos="fade-up">📸 Our Work</h2>
+        <p class="text-center text-brand-brown-light mb-12 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">Before & after transformations from our grooming sessions.</p>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="rounded-2xl overflow-hidden  group" data-aos="fade-up" data-aos-delay="100">
+                <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?q=80&w=400&auto=format&fit=crop" alt="Golden retriever grooming" class="w-full h-48 object-cover transition duration-500">
+            </div>
+            <div class="rounded-2xl overflow-hidden  group" data-aos="fade-up" data-aos-delay="150">
+                <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?q=80&w=400&auto=format&fit=crop" alt="Cat after grooming" class="w-full h-48 object-cover transition duration-500">
+            </div>
+            <div class="rounded-2xl overflow-hidden  group" data-aos="fade-up" data-aos-delay="200">
+                <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=400&auto=format&fit=crop" alt="Dogs after spa day" class="w-full h-48 object-cover transition duration-500">
+            </div>
+            <div class="rounded-2xl overflow-hidden  group" data-aos="fade-up" data-aos-delay="250">
+                <img src="https://images.unsplash.com/photo-1495360010541-f48722b34f7d?q=80&w=400&auto=format&fit=crop" alt="Fluffy cat" class="w-full h-48 object-cover transition duration-500">
+            </div>
+            <div class="rounded-2xl overflow-hidden  group" data-aos="fade-up" data-aos-delay="200">
+                <img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?q=80&w=400&auto=format&fit=crop" alt="Playful cat" class="w-full h-48 object-cover transition duration-500">
+            </div>
+            <div class="rounded-2xl overflow-hidden  group" data-aos="fade-up" data-aos-delay="250">
+                <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?q=80&w=400&auto=format&fit=crop" alt="Dog with bandana" class="w-full h-48 object-cover transition duration-500">
+            </div>
+            <div class="rounded-2xl overflow-hidden  group" data-aos="fade-up" data-aos-delay="300">
+                <img src="https://images.unsplash.com/photo-1589924691995-400dc9ecc119?q=80&w=400&auto=format&fit=crop" alt="Dog food and treats" class="w-full h-48 object-cover transition duration-500">
+            </div>
+            <div class="rounded-2xl overflow-hidden  group" data-aos="fade-up" data-aos-delay="350">
+                <img src="https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?q=80&w=400&auto=format&fit=crop" alt="Dog accessories" class="w-full h-48 object-cover transition duration-500">
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="bg-white/60 py-24 border-y border-brand-peach scroll-mt-20">
+        <div class="max-w-3xl mx-auto px-6">
+            <h2 class="text-center text-4xl font-display font-bold mb-4 pet-text-coral" data-aos="fade-up">❓ Frequently Asked Questions</h2>
+            <p class="text-center text-brand-brown-light mb-12" data-aos="fade-up" data-aos-delay="100">Everything you need to know before your visit.</p>
+            
+            <div class="space-y-4">
+                <div class="faq-item bg-brand-cream border-2 border-brand-peach rounded-2xl overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                    <button onclick="toggleFaq(this)" class="w-full px-6 py-4 text-left flex justify-between items-center">
+                        <span class="font-bold text-brand-brown">Do I need an appointment?</span>
+                        <span class="text-brand-coral text-xl transition-transform faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer hidden px-6 pb-4">
+                        <p class="text-brand-brown-light">While walk-ins are welcome, we recommend booking an appointment to guarantee your preferred time slot. Peak hours (weekends) fill up quickly!</p>
+                    </div>
+                </div>
+
+                <div class="faq-item bg-brand-cream border-2 border-brand-peach rounded-2xl overflow-hidden" data-aos="fade-up" data-aos-delay="150">
+                    <button onclick="toggleFaq(this)" class="w-full px-6 py-4 text-left flex justify-between items-center">
+                        <span class="font-bold text-brand-brown">How long does a grooming session take?</span>
+                        <span class="text-brand-coral text-xl transition-transform faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer hidden px-6 pb-4">
+                        <p class="text-brand-brown-light">A basic wash takes about 45-60 minutes. Full grooming (wash + haircut) typically takes 1.5-2 hours depending on breed and coat condition.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item bg-brand-cream border-2 border-brand-peach rounded-2xl overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                    <button onclick="toggleFaq(this)" class="w-full px-6 py-4 text-left flex justify-between items-center">
+                        <span class="font-bold text-brand-brown">Can I stay and watch during the session?</span>
+                        <span class="text-brand-coral text-xl transition-transform faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer hidden px-6 pb-4">
+                        <p class="text-brand-brown-light">For the comfort and safety of all pets, we ask that owners drop off and pick up. However, we're happy to send you photo updates during the session!</p>
+                    </div>
+                </div>
+
+                <div class="faq-item bg-brand-cream border-2 border-brand-peach rounded-2xl overflow-hidden" data-aos="fade-up" data-aos-delay="250">
+                    <button onclick="toggleFaq(this)" class="w-full px-6 py-4 text-left flex justify-between items-center">
+                        <span class="font-bold text-brand-brown">What products do you use?</span>
+                        <span class="text-brand-coral text-xl transition-transform faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer hidden px-6 pb-4">
+                        <p class="text-brand-brown-light">We only use premium, pet-safe, and hypoallergenic products. All our shampoos and conditioners are free from parabens, sulfates, and artificial fragrances.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item bg-brand-cream border-2 border-brand-peach rounded-2xl overflow-hidden" data-aos="fade-up" data-aos-delay="300">
+                    <button onclick="toggleFaq(this)" class="w-full px-6 py-4 text-left flex justify-between items-center">
+                        <span class="font-bold text-brand-brown">Do you offer mobile grooming services?</span>
+                        <span class="text-brand-coral text-xl transition-transform faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer hidden px-6 pb-4">
+                        <p class="text-brand-brown-light">Not yet, but it's on our roadmap! For now, we offer a comfortable, stress-free environment at our salon with a pet lounge for waiting companions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="location" class="max-w-7xl mx-auto px-6 py-24 scroll-mt-20">
+        <h2 class="text-center text-4xl font-display font-bold mb-4 pet-text-sage" data-aos="fade-up">📍 Visit Us</h2>
+        <p class="text-center text-brand-brown-light mb-12" data-aos="fade-up" data-aos-delay="100">We'd love to meet you and your furry friend!</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-8 rounded-2xl border-2 border-brand-peach " data-aos="fade-right">
+                <h3 class="text-xl font-bold text-brand-brown mb-4">🏪 Our Location</h3>
+                <div class="space-y-3 text-brand-brown-light">
+                    <p class="flex items-start gap-3">
+                        <span class="text-brand-coral">📍</span>
+                        <span>123 Pawfect Street<br>Petville, CA 90210</span>
+                    </p>
+                    <p class="flex items-center gap-3">
+                        <span class="text-brand-coral">📞</span>
+                        <span>(800) 555-1234</span>
+                    </p>
+                    <p class="flex items-center gap-3">
+                        <span class="text-brand-coral">✉️</span>
+                        <span>hello@pawsandpolish.com</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl border-2 border-brand-peach " data-aos="fade-left">
+                <h3 class="text-xl font-bold text-brand-brown mb-4">🕐 Business Hours</h3>
+                <div class="space-y-2 text-brand-brown-light">
+                    <div class="flex justify-between">
+                        <span>Monday - Friday</span>
+                        <span class="font-bold text-brand-brown">8:00 AM - 7:00 PM</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Saturday</span>
+                        <span class="font-bold text-brand-brown">9:00 AM - 6:00 PM</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Sunday</span>
+                        <span class="font-bold text-brand-brown">10:00 AM - 4:00 PM</span>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-brand-peach">
+                        <p class="text-sm"><span class="text-brand-coral font-bold">Note:</span> Extended hours available for holiday seasons. Check our social media for updates!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-brand-brown scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-6 py-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl">🐾</span>
+                    <span class="text-white font-bold">Paws & Polish</span>
+                    <span class="text-white/40 text-sm ml-2">© 2025</span>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center">
+                        <input type="email" placeholder="Your email for tips & offers" class="bg-white/10 border border-white/20 rounded-l-full px-4 py-1.5 text-white text-xs focus:outline-none focus:border-brand-coral w-48">
+                        <button class="bg-brand-coral hover:bg-brand-coral-light text-white px-3 py-1.5 rounded-r-full font-bold text-xs transition">Join</button>
+                    </div>
+                    <div class="flex gap-2">
+                        <a href="#" class="w-8 h-8 bg-white/10 hover:bg-brand-coral rounded-full flex items-center justify-center transition text-sm">📷</a>
+                        <a href="#" class="w-8 h-8 bg-white/10 hover:bg-brand-coral rounded-full flex items-center justify-center transition text-sm">👍</a>
+                        <a href="#" class="w-8 h-8 bg-white/10 hover:bg-brand-coral rounded-full flex items-center justify-center transition text-sm">🐦</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="cartOverlay" onclick="toggleCart()" class="fixed inset-0 bg-brand-brown/30 z-40 opacity-0 transition-opacity pointer-events-none"></div>
+    <div id="cartSidebar" class="fixed top-0 right-0 h-full w-full md:w-96 bg-white border-l-2 border-brand-peach z-50 p-6 flex flex-col hidden-cart ">
+        <div class="flex justify-between items-center mb-6 border-b-2 border-brand-peach pb-4">
+            <h2 class="text-2xl font-display font-bold text-brand-brown">🐾 Your Cart</h2>
+            <button onclick="toggleCart()" class="text-brand-brown-light hover:text-brand-coral">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        
+        <div id="cartItems" class="flex-1 overflow-y-auto space-y-4">
+            <p class="text-brand-brown-light text-center mt-10">Your cart is empty. 🐾</p>
+        </div>
+
+        <div class="border-t-2 border-brand-peach pt-6 mt-4">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-brand-brown-light">Total:</span>
+                <span id="cartTotal" class="text-2xl font-bold text-brand-coral">$0.00</span>
+            </div>
+            <button class="w-full bg-brand-coral text-white font-bold py-3 rounded-full hover:bg-brand-coral-light transition ">CHECKOUT 🐾</button>
+        </div>
+    </div>
+
+    <div id="bookingModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-brand-brown/40" onclick="closeBooking()"></div>
+        
+        <div class="relative bg-white border-2 border-brand-peach p-8 rounded-3xl w-full max-w-md mx-4 ">
+            <div class="absolute -top-3 -right-3">
+                <button onclick="closeBooking()" class="bg-brand-peach text-brand-brown rounded-full p-2 hover:bg-brand-coral hover:text-white transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <h2 class="text-2xl font-bold text-brand-brown mb-1 pet-text-coral text-center">🐾 Book Session</h2>
+            <p class="text-brand-brown-light text-sm text-center mb-6">Complete the criteria for <span id="modalServiceName" class="text-brand-sage font-bold">Service</span></p>
+
+            <form onsubmit="submitBooking(event)" class="space-y-4">
+                <div>
+                    <label class="block text-brand-brown text-xs uppercase font-bold mb-1">Your Name</label>
+                    <input type="text" required placeholder="Owner's Name" class="w-full bg-brand-cream border-2 border-brand-peach rounded-xl px-4 py-2 text-brand-brown focus:outline-none focus:border-brand-coral">
+                </div>
+                <div>
+                    <label class="block text-brand-brown text-xs uppercase font-bold mb-1">Pet's Name</label>
+                    <input type="text" required placeholder="Fido" class="w-full bg-brand-cream border-2 border-brand-peach rounded-xl px-4 py-2 text-brand-brown focus:outline-none focus:border-brand-coral">
+                </div>
+                <div>
+                    <label class="block text-brand-brown text-xs uppercase font-bold mb-1">Pet's Breed / Size</label>
+                    <input type="text" required placeholder="Poodle or Large" class="w-full bg-brand-cream border-2 border-brand-peach rounded-xl px-4 py-2 text-brand-brown focus:outline-none focus:border-brand-coral">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-brand-brown text-xs uppercase font-bold mb-1">Date</label>
+                        <input type="date" required class="w-full bg-brand-cream border-2 border-brand-peach rounded-xl px-4 py-2 text-brand-brown focus:outline-none focus:border-brand-coral">
+                    </div>
+                    <div>
+                        <label class="block text-brand-brown text-xs uppercase font-bold mb-1">Time</label>
+                        <input type="time" required class="w-full bg-brand-cream border-2 border-brand-peach rounded-xl px-4 py-2 text-brand-brown focus:outline-none focus:border-brand-coral">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-brand-coral text-white font-bold py-3 rounded-full hover:bg-brand-coral-light transition mt-4">
+                    CONFIRM BOOKING 🐾
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="callModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-brand-brown/40" onclick="closeCallModal()"></div>
+        
+        <div class="relative bg-white border-2 border-brand-peach p-8 rounded-3xl w-full max-w-sm mx-4 text-center ">
+            
+            <div class="absolute -top-3 -right-3">
+                <button onclick="closeCallModal()" class="bg-brand-peach text-brand-brown rounded-full p-2 hover:bg-brand-coral hover:text-white transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <div class="w-20 h-20 bg-brand-coral/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="text-4xl">📞</span>
+            </div>
+
+            <h3 class="text-brand-brown text-lg font-bold mb-2">Contacting Paws & Polish...</h3>
+            <p class="text-brand-brown-light text-xs uppercase tracking-widest mb-6">Available Hotline</p>
+
+            <div class="bg-brand-cream border-2 border-brand-peach rounded-xl py-4 px-2 mb-6">
+                <span id="randomNumberDisplay" class="font-mono text-2xl font-bold text-brand-coral tracking-wider"></span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="closeCallModal()" class="bg-brand-cream text-brand-brown border-2 border-brand-peach font-bold py-3 rounded-full hover:bg-brand-peach transition">
+                    Cancel
+                </button>
+                <a id="callLinkBtn" href="#" class="bg-brand-sage text-white font-bold py-3 rounded-full hover:bg-brand-sage-light transition flex items-center justify-center">
+                    🐾 Call Now
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="successModal" class="fixed inset-0 z-[70] hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-brand-brown/40"></div>
+        <div class="relative bg-white border-2 border-brand-peach p-8 rounded-3xl w-full max-w-sm mx-4 text-center ">
+            <div class="w-20 h-20 bg-brand-sage/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10 text-brand-sage" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <h3 id="successTitle" class="text-brand-brown text-xl font-bold mb-2">Success! 🐾</h3>
+            <p id="successMessage" class="text-brand-brown-light text-sm mb-6">Your booking has been confirmed!</p>
+            <button onclick="closeSuccessModal()" class="bg-brand-coral text-white font-bold py-3 px-8 rounded-full hover:bg-brand-coral-light transition">Done</button>
+        </div>
+    </div>
+
+    <!-- BACK TO TOP -->
+    <button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="hidden-btn fixed bottom-24 right-6 z-50 w-12 h-12 bg-brand-coral hover:bg-brand-coral-light text-white rounded-full  flex items-center justify-center text-xl transition">
+        🐾
+    </button>
+
+    <!-- MOBILE STICKY CTA -->
+    <div id="mobileCta" class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t-2 border-brand-peach p-3 flex gap-3 md:hidden">
+        <a href="tel:+18005551234" class="flex-1 bg-brand-sage text-white text-center py-3 rounded-full font-bold text-sm ">📞 Call</a>
+        <a href="#services" onclick="toggleMobileCta()" class="flex-1 bg-brand-coral text-white text-center py-3 rounded-full font-bold text-sm ">Book Now 🐾</a>
+    </div>
+
+    <!-- WHATSAPP -->
+    <a href="https://wa.me/18005551234?text=Hi!%20I%27d%20like%20to%20book%20a%20grooming%20session%20🐾" target="_blank" id="whatsappBtn" class="fixed bottom-24 left-6 z-50 w-14 h-14 bg-[#25D366] hover:bg-[#20BA5C] text-white rounded-full  flex items-center justify-center text-2xl transition">
+        💬
+    </a>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true, offset: 50 });
+
+        // --- PROMO BANNER ---
+        function closePromo() {
+            const banner = document.getElementById('promoBanner');
+            banner.classList.add('hidden-banner');
+            setTimeout(() => banner.style.display = 'none', 400);
+        }
+
+        // --- MOBILE MENU ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const hamburger = document.getElementById('hamburgerIcon');
+            const close = document.getElementById('closeIcon');
+            menu.classList.toggle('hidden');
+            hamburger.classList.toggle('hidden');
+            close.classList.toggle('hidden');
+        }
+
+        // --- MOBILE CTA TOGGLE ---
+        function toggleMobileCta() {
+            const cta = document.getElementById('mobileCta');
+            if (cta.style.display === 'none') { cta.style.display = 'flex'; }
+        }
+
+        // --- BACK TO TOP ---
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('backToTop');
+            if (window.scrollY > 500) {
+                btn.classList.remove('hidden-btn');
+            } else {
+                btn.classList.add('hidden-btn');
+            }
+        });
+
+        // --- CART LOGIC ---
+        let cart = [];
+        const cartSidebar = document.getElementById('cartSidebar');
+        const cartOverlay = document.getElementById('cartOverlay');
+        const cartItemsContainer = document.getElementById('cartItems');
+        const cartTotalDisplay = document.getElementById('cartTotal');
+        const cartCountBadge = document.getElementById('cartCount');
+
+        function toggleCart() {
+            const isHidden = cartSidebar.classList.contains('hidden-cart');
+            if (isHidden) {
+                cartSidebar.classList.remove('hidden-cart');
+                cartSidebar.classList.add('visible-cart');
+                cartOverlay.classList.remove('hidden');
+                cartOverlay.classList.remove('opacity-0');
+                cartOverlay.classList.add('opacity-100');
+                cartOverlay.classList.remove('pointer-events-none');
+            } else {
+                cartSidebar.classList.add('hidden-cart');
+                cartSidebar.classList.remove('visible-cart');
+                cartOverlay.classList.add('opacity-0');
+                cartOverlay.classList.add('pointer-events-none');
+                setTimeout(() => cartOverlay.classList.add('hidden'), 300);
+            }
+        }
+
+        function addToCart(itemName, itemPrice) {
+            const existing = cart.find(item => item.name === itemName);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ name: itemName, price: itemPrice, qty: 1 });
+            }
+            updateCartUI();
+            if(cartSidebar.classList.contains('hidden-cart')){
+                toggleCart();
+            }
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            cartCountBadge.innerText = totalItems;
+            if(totalItems > 0) {
+                cartCountBadge.classList.remove('hidden');
+            } else {
+                cartCountBadge.classList.add('hidden');
+            }
+
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = '<p class="text-brand-brown-light text-center mt-10">Your cart is empty. 🐾</p>';
+            } else {
+                cart.forEach((item, index) => {
+                    total += item.price * item.qty;
+                    const div = document.createElement('div');
+                    div.className = 'flex justify-between items-center bg-brand-cream p-3 rounded-xl border-2 border-brand-peach';
+                    div.innerHTML = `
+                        <div class="flex-1">
+                            <p class="text-brand-brown font-bold text-sm">${item.name}</p>
+                            <p class="text-brand-coral text-xs">$${item.price.toFixed(2)} each</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="updateQty(${index}, -1)" class="w-6 h-6 bg-brand-peach rounded-full text-brand-brown font-bold text-xs hover:bg-brand-coral hover:text-white transition">-</button>
+                            <span class="text-brand-brown font-bold text-sm w-4 text-center">${item.qty}</span>
+                            <button onclick="updateQty(${index}, 1)" class="w-6 h-6 bg-brand-peach rounded-full text-brand-brown font-bold text-xs hover:bg-brand-sage hover:text-white transition">+</button>
+                        </div>
+                        <button onclick="removeFromCart(${index})" class="text-brand-coral hover:text-brand-coral-light text-xs underline ml-3">Remove</button>
+                    `;
+                    cartItemsContainer.appendChild(div);
+                });
+            }
+            cartTotalDisplay.innerText = '$' + total.toFixed(2);
+        }
+
+        // --- BOOKING MODAL ---
+        const bookingModal = document.getElementById('bookingModal');
+        const modalServiceName = document.getElementById('modalServiceName');
+
+        function openBooking(serviceName) {
+            modalServiceName.innerText = serviceName;
+            bookingModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBooking() {
+            bookingModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function submitBooking(event) {
+            event.preventDefault();
+            closeBooking();
+            showSuccessModal('Booking Confirmed! 🐾', 'A staff member will contact you shortly to finalize details.');
+            event.target.reset();
+        }
+
+        // --- CALL MODAL ---
+        const callModal = document.getElementById('callModal');
+        const randomNumberDisplay = document.getElementById('randomNumberDisplay');
+        const callLinkBtn = document.getElementById('callLinkBtn');
+
+        function openCallModal() {
+            const areaCode = Math.floor(Math.random() * (999 - 200 + 1)) + 200;
+            const prefix = Math.floor(Math.random() * (999 - 100 + 1)) + 100;
+            const lineNum = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+            const randomPhone = `+1 (${areaCode}) ${prefix}-${lineNum}`;
+            randomNumberDisplay.innerText = randomPhone;
+            callLinkBtn.href = `tel:+1${areaCode}${prefix}${lineNum}`;
+            callModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCallModal() {
+            callModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // --- SUCCESS MODAL ---
+        const successModal = document.getElementById('successModal');
+        const successTitle = document.getElementById('successTitle');
+        const successMessage = document.getElementById('successMessage');
+
+        function showSuccessModal(title, message) {
+            successTitle.innerText = title;
+            successMessage.innerText = message;
+            successModal.classList.remove('hidden');
+        }
+
+        function closeSuccessModal() {
+            successModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // --- CONTACT FORM ---
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            const fullName = document.getElementById('fullName').value;
+            const subject = document.getElementById('subject').value;
+            showSuccessModal('Message Sent! 💌', `Thank you, ${fullName}! Your message regarding "${subject}" has been sent. We will respond shortly.`);
+            event.target.reset();
+        }
+
+        // --- FAQ TOGGLE ---
+        function toggleFaq(button) {
+            const answer = button.nextElementSibling;
+            const icon = button.querySelector('.faq-icon');
+            const allAnswers = document.querySelectorAll('.faq-answer');
+            const allIcons = document.querySelectorAll('.faq-icon');
+            
+            allAnswers.forEach(a => { if (a !== answer) a.classList.add('hidden'); });
+            allIcons.forEach(i => { if (i !== icon) { i.style.transform = 'rotate(0deg)'; i.textContent = '+'; } });
+            
+            answer.classList.toggle('hidden');
+            if (!answer.classList.contains('hidden')) {
+                icon.style.transform = 'rotate(45deg)';
+                icon.textContent = '+';
+            } else {
+                icon.style.transform = 'rotate(0deg)';
+                icon.textContent = '+';
+            }
+        }
+
+        // --- ANIMATED COUNTERS ---
+        function animateCounters() {
+            const counters = document.querySelectorAll('[data-target]');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const suffix = counter.getAttribute('data-suffix') || '';
+                const duration = 2000;
+                const increment = target / (duration / 16);
+                let current = 0;
+
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current) + suffix;
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target + suffix;
+                    }
+                };
+                updateCounter();
+            });
+        }
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    animateCounters();
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.counter-section').forEach(el => counterObserver.observe(el));
+
+        // --- LAZY LOADING IMAGES ---
+        document.querySelectorAll('img.lazy').forEach(img => {
+            if (img.complete) {
+                img.classList.add('loaded');
+            } else {
+                img.addEventListener('load', () => img.classList.add('loaded'));
+            }
+        });
+
+        // --- FLOATING PET BACKGROUND ---
+        const petBg = document.getElementById('petBg');
+        const petEmojis = ['🐾', '🦴', '🐱', '🐕', '🐩', '🐈', '🐶', '🩷', '🐾', '🦴', '🐱', '🐕', '🐾', '🦴', '🐾', '🐈', '🐩', '🐶', '🦴', '🐾', '🐱', '🐕', '🩷', '🐾'];
+        const animations = ['petFloat', 'petDrift', 'petBounce', 'petSpin', 'petSway', 'petPulse'];
+
+        function createPet() {
+            const el = document.createElement('span');
+            el.className = 'pet-float';
+            el.textContent = petEmojis[Math.floor(Math.random() * petEmojis.length)];
+            el.style.left = Math.random() * 100 + '%';
+            el.style.top = Math.random() * 100 + '%';
+            el.style.fontSize = (Math.random() * 2.5 + 1.5) + 'rem';
+            
+            const anim = animations[Math.floor(Math.random() * animations.length)];
+            el.style.animationName = anim;
+            el.style.animationDuration = (Math.random() * 15 + 8) + 's';
+            el.style.animationDelay = (Math.random() * 3) + 's';
+            el.style.animationIterationCount = 'infinite';
+            el.style.animationTimingFunction = 'linear';
+            
+            petBg.appendChild(el);
+        }
+
+        for (let i = 0; i < 30; i++) {
+            createPet();
+        }
+        
+        updateCartUI();
+    </script>
+
+</body>
+</html>
